@@ -5,5 +5,5 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    Gun gun;
+    Gun playerGun;
 }

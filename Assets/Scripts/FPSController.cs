@@ -3,28 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Player))]
 [RequireComponent(typeof(CharacterController))]
 public class FPSController : MonoBehaviour
 {
-    public Camera playerCamera;
-    public float walkSpeed = 6f;
+    [SerializeField]
+    Player player;
 
-    public float lookSpeed = 2f;
-    public float lookXLimit = 45f;
+    // Movement
+    [SerializeField]
+    Camera PlayerCamera;
+    [SerializeField]
+    float WalkSpeed = 6f;
+
+    [SerializeField]
+    float LookSpeed = .1f;
+    [SerializeField]
+    float LookXLimit = 45f;
 
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
 
-    public bool canMove = true;
+    // Shooting
+    public delegate void Shot();
+    public static event Shot onShot;
 
     PlayerInput playerInput;
-    InputAction MoveAction, LookAction;
+    InputAction moveAction, lookAction, fireAction;
     CharacterController characterController;
     void Awake()
     {
         playerInput = new PlayerInput();
-        MoveAction = playerInput.Player.Move;
-        LookAction = playerInput.Player.Look;
+        moveAction = playerInput.Player.Move;
+        lookAction = playerInput.Player.Look;
+        fireAction = playerInput.Player.Fire;
 
         characterController = GetComponent<CharacterController>();
 
@@ -33,8 +45,11 @@ public class FPSController : MonoBehaviour
     }
     private void OnEnable()
     {
-        MoveAction.Enable();
-        LookAction.Enable();
+        moveAction.Enable();
+        lookAction.Enable();
+        fireAction.Enable();
+
+        fireAction.performed += OnShoot;
     }
 
     void Update()
@@ -47,24 +62,35 @@ public class FPSController : MonoBehaviour
     void OnMove()
     {
         Vector2 input = playerInput.Player.Move.ReadValue<Vector2>();
+
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
-        float curSpeedX = walkSpeed * input.y;
-        float curSpeedY = walkSpeed * input.x;
-        moveDirection = (forward * curSpeedX) + (right * curSpeedY);
+
+        float speedX = WalkSpeed * input.y;
+        float speedY = WalkSpeed * input.x;
+
+        moveDirection = (forward * speedX) + (right * speedY);
 
     }
     void OnLook()
     {
-        Vector2 lookInput = LookAction.ReadValue<Vector2>();
-        rotationX += -lookInput.y * lookSpeed;
-        rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-        transform.rotation *= Quaternion.Euler(0, lookInput.x * lookSpeed, 0);
+        Vector2 lookInput = lookAction.ReadValue<Vector2>();
+
+        rotationX += -lookInput.y * LookSpeed;
+        rotationX = Mathf.Clamp(rotationX, -LookXLimit, LookXLimit);
+
+        PlayerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+
+        transform.rotation *= Quaternion.Euler(0, lookInput.x * LookSpeed, 0);
+    }
+    void OnShoot(InputAction.CallbackContext callbackContext)
+    {
+        onShot?.Invoke();
     }
     private void OnDisable()
     {
-        MoveAction.Disable();
-        LookAction.Disable();
+        moveAction.Disable();
+        lookAction.Disable();
+        fireAction.Enable();
     }
 }
