@@ -25,18 +25,23 @@ public class FPSController : MonoBehaviour
     float rotationX = 0;
 
     // Shooting
-    public delegate void Shot();
-    public static event Shot onShot;
+    public delegate void Fired();
+    public static event Fired onFired;
+
+    public delegate void Reloaded();
+    public static event Reloaded onReloaded;
 
     PlayerInput playerInput;
-    InputAction moveAction, lookAction, fireAction;
+    InputAction moveAction, lookAction, fireAction, reloadAction;
     CharacterController characterController;
+
     void Awake()
     {
         playerInput = new PlayerInput();
         moveAction = playerInput.Player.Move;
         lookAction = playerInput.Player.Look;
         fireAction = playerInput.Player.Fire;
+        reloadAction = playerInput.Player.Reload;
 
         characterController = GetComponent<CharacterController>();
 
@@ -48,8 +53,10 @@ public class FPSController : MonoBehaviour
         moveAction.Enable();
         lookAction.Enable();
         fireAction.Enable();
+        reloadAction.Enable();
 
-        fireAction.performed += OnShoot;
+        fireAction.performed += OnFire;
+        reloadAction.performed += OnReload;
     }
 
     void Update()
@@ -83,14 +90,19 @@ public class FPSController : MonoBehaviour
 
         transform.rotation *= Quaternion.Euler(0, lookInput.x * LookSpeed, 0);
     }
-    void OnShoot(InputAction.CallbackContext callbackContext)
+    void OnFire(InputAction.CallbackContext callbackContext)
     {
-        onShot?.Invoke();
+        onFired?.Invoke();
+    }
+    void OnReload(InputAction.CallbackContext callbackContext)
+    {
+        onReloaded?.Invoke();
     }
     private void OnDisable()
     {
         moveAction.Disable();
         lookAction.Disable();
-        fireAction.Enable();
+        fireAction.Disable();
+        reloadAction.Disable();
     }
 }

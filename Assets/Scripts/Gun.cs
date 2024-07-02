@@ -6,15 +6,21 @@ public class Gun : MonoBehaviour
 {
     public float Damage;
 
+    public int MaxMagazine;
+
     public int MaxAmmo;
 
-    int shotsLeft;
+    public int ammo { get; private set; }
+
+    public int shotsLeft { get; private set; }
 
     public float ShootDelay;
 
-    public float BulletSpeed;
+    public float ReloadDelay;
 
     float lastShootTime;
+
+    public float BulletSpeed;
 
     public Transform BulletSpawnPoint;
 
@@ -27,13 +33,16 @@ public class Gun : MonoBehaviour
     ParticleSystem ImpactParticleSystem;
     private void Awake()
     {
-        shotsLeft = MaxAmmo;
+        ammo = MaxAmmo;
+        shotsLeft = MaxMagazine;
     }
 
     private void OnEnable()
     {
-        FPSController.onShot += Shoot;
+        FPSController.onFired += Shoot;
+        FPSController.onReloaded += Reload;
     }
+
     void Shoot()
     {
         bool canShoot = lastShootTime + ShootDelay < Time.time && shotsLeft > 0;
@@ -56,6 +65,31 @@ public class Gun : MonoBehaviour
             lastShootTime = Time.time;
         }
     }
+
+    void Reload()
+    {
+        StartCoroutine(WaitToReload());
+    }
+
+    IEnumerator WaitToReload()
+    {
+        yield return new WaitForSeconds(ReloadDelay);
+
+        if (shotsLeft != MaxMagazine && ammo > 0)
+        {
+            int bulletsToReload = MaxMagazine - shotsLeft;
+            ammo -= bulletsToReload;
+
+            if (ammo < 0)
+            {
+                bulletsToReload += ammo;
+                ammo = 0;
+            }
+
+            shotsLeft += bulletsToReload;
+        }
+    }
+
     private IEnumerator SpawnBullet(GameObject Bullet, Vector3 HitPoint, Vector3 HitNormal, bool MadeImpact)
     {
         Vector3 startPosition = Bullet.transform.position;
@@ -80,8 +114,11 @@ public class Gun : MonoBehaviour
             Instantiate(ImpactParticleSystem, HitPoint + HitNormal * 0.1f, Quaternion.LookRotation(HitNormal));
         }
     }
+
     private void OnDisable()
     {
-        FPSController.onShot -= Shoot;
+        FPSController.onFired -= Shoot;
+        FPSController.onReloaded -= Reload;
     }
+
 }
