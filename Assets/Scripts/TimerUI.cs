@@ -16,8 +16,6 @@ public class TimerUI : MonoBehaviour
         string time = GameManager.Instance.TimeLeft.ToString("F2");
         string[] times = time.Split('.');
 
-        print(time);
-
         SecondsText.text = times[0];
         MillisecondsText.text = times[1];
     }

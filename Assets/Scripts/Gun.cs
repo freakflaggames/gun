@@ -58,7 +58,7 @@ public class Gun : MonoBehaviour
 
             bool hitTarget = Physics.Raycast(camera.position, direction, out RaycastHit hit, maxDistance, TargetMask);
 
-            StartCoroutine(SpawnBullet(Bullet, hit.point, hit.normal, hitTarget));
+            StartCoroutine(SpawnBullet(Bullet, hit.point, hit.normal, hit.collider.gameObject, hitTarget));
 
             shotsLeft--;
 
@@ -90,7 +90,7 @@ public class Gun : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnBullet(GameObject Bullet, Vector3 HitPoint, Vector3 HitNormal, bool MadeImpact)
+    private IEnumerator SpawnBullet(GameObject Bullet, Vector3 HitPoint, Vector3 HitNormal, GameObject other, bool MadeImpact)
     {
         Vector3 startPosition = Bullet.transform.position;
 
@@ -111,7 +111,22 @@ public class Gun : MonoBehaviour
 
         if (MadeImpact)
         {
-            Instantiate(ImpactParticleSystem, HitPoint + HitNormal * 0.1f, Quaternion.LookRotation(HitNormal));
+            if (other.transform.parent.tag == "Enemy")
+            {
+                Enemy enemy = other.transform.parent.GetComponent<Enemy>();
+
+                bool headshot = other.tag == "Head";
+                float damage = Damage * (headshot ? 2 : 1);
+
+                enemy.Damage(damage);
+            }
+            else
+            {
+                AudioManager.Instance.PlaySound("gunshot");
+            }
+
+            var impactInstance = Instantiate(ImpactParticleSystem, HitPoint + HitNormal * 0.1f, Quaternion.LookRotation(HitNormal));
+            impactInstance.transform.parent = other.transform.parent;
         }
     }
 
