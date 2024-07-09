@@ -13,6 +13,8 @@ public class FPSController : MonoBehaviour
     // Movement
     public bool canMove;
 
+    
+
     [SerializeField]
     Camera PlayerCamera;
     [SerializeField]
@@ -42,8 +44,11 @@ public class FPSController : MonoBehaviour
     public delegate void Reloaded();
     public static event Reloaded onReloaded;
 
+    public delegate void Grappled();
+    public static event Grappled onGrapple;
+
     PlayerInput playerInput;
-    InputAction moveAction, lookAction, fireAction, reloadAction, dashAction;
+    InputAction moveAction, lookAction, fireAction, reloadAction, dashAction, grappleAction;
     CharacterController characterController;
 
     void Awake()
@@ -54,6 +59,7 @@ public class FPSController : MonoBehaviour
         fireAction = playerInput.Player.Fire;
         reloadAction = playerInput.Player.Reload;
         dashAction = playerInput.Player.Dash;
+        grappleAction = playerInput.Player.Grapple;
 
         characterController = GetComponent<CharacterController>();
 
@@ -67,9 +73,11 @@ public class FPSController : MonoBehaviour
         fireAction.Enable();
         reloadAction.Enable();
         dashAction.Enable();
+        grappleAction.Disable();
 
         fireAction.performed += OnFire;
         reloadAction.performed += OnReload;
+        grappleAction.performed += OnGrapple;
         
     }
 
@@ -130,6 +138,7 @@ public class FPSController : MonoBehaviour
         }
     }
 
+
     void OnLook()
     {
         Vector2 lookInput = lookAction.ReadValue<Vector2>();
@@ -143,7 +152,12 @@ public class FPSController : MonoBehaviour
         transform.rotation *= Quaternion.Euler(0, lookInput.x * LookSpeed, 0);
     }
 
-   
+    void OnGrapple(InputAction.CallbackContext callbackContext)
+    {
+        onGrapple?.Invoke();
+    }
+
+
 
     void OnFire(InputAction.CallbackContext callbackContext)
     {
@@ -163,5 +177,6 @@ public class FPSController : MonoBehaviour
         fireAction.Disable();
         reloadAction.Disable();
         dashAction.Disable();
+        grappleAction.Disable();
     }
 }
