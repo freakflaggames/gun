@@ -19,11 +19,20 @@ public class FPSController : MonoBehaviour
     float WalkSpeed = 6f;
 
     [SerializeField]
+    float DashSpeed = 10f;
+
+    [SerializeField]
+    float DashDistance = 3f;
+
+    [SerializeField]
     float LookSpeed = .1f;
     [SerializeField]
     float LookXLimit = 45f;
 
     Vector3 moveDirection = Vector3.zero;
+
+    Vector3 dashDirection = Vector3.zero;
+
     float rotationX = 0;
 
     // Shooting
@@ -34,7 +43,7 @@ public class FPSController : MonoBehaviour
     public static event Reloaded onReloaded;
 
     PlayerInput playerInput;
-    InputAction moveAction, lookAction, fireAction, reloadAction;
+    InputAction moveAction, lookAction, fireAction, reloadAction, dashAction;
     CharacterController characterController;
 
     void Awake()
@@ -44,6 +53,7 @@ public class FPSController : MonoBehaviour
         lookAction = playerInput.Player.Look;
         fireAction = playerInput.Player.Fire;
         reloadAction = playerInput.Player.Reload;
+        dashAction = playerInput.Player.Dash;
 
         characterController = GetComponent<CharacterController>();
 
@@ -56,22 +66,27 @@ public class FPSController : MonoBehaviour
         lookAction.Enable();
         fireAction.Enable();
         reloadAction.Enable();
+        dashAction.Enable();
 
         fireAction.performed += OnFire;
         reloadAction.performed += OnReload;
+        
     }
 
     void Update()
     {
         OnMove();
         OnLook();
+        
 
         if (canMove)
         {
             characterController.Move(moveDirection * Time.deltaTime);
+            dashAction.performed += OnDash;
         }
     }
-        void OnMove()
+
+    void OnMove()
     {
         Vector2 input = playerInput.Player.Move.ReadValue<Vector2>();
 
@@ -84,30 +99,69 @@ public class FPSController : MonoBehaviour
         moveDirection = (forward * speedX) + (right * speedY);
 
     }
+
+
+    void OnDash(InputAction.CallbackContext callbackContext)
+    {
+        Vector2 direction = playerInput.Player.Move.ReadValue<Vector2>();
+
+        Vector3 forward = transform.TransformDirection(Vector3.forward);
+        Vector3 right = transform.TransformDirection(Vector3.right);
+
+        float speedX = DashSpeed * direction.y;
+        float speedY = DashSpeed * direction.x;
+
+        dashDirection = (forward * speedX) + (right * speedY);
+
+        StartCoroutine(DashCoroutine());
+        
+
+    }
+
+    IEnumerator DashCoroutine()
+    {
+        float startTime = Time.time;
+
+        while (Time.time < startTime + DashDistance)
+        {
+            characterController.Move(dashDirection * DashSpeed * Time.deltaTime);
+          
+            yield return null; 
+        }
+    }
+
     void OnLook()
     {
         Vector2 lookInput = lookAction.ReadValue<Vector2>();
 
         rotationX += -lookInput.y * LookSpeed;
+
         rotationX = Mathf.Clamp(rotationX, -LookXLimit, LookXLimit);
 
         PlayerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
 
         transform.rotation *= Quaternion.Euler(0, lookInput.x * LookSpeed, 0);
     }
+
+   
+
     void OnFire(InputAction.CallbackContext callbackContext)
     {
         onFired?.Invoke();
     }
+
     void OnReload(InputAction.CallbackContext callbackContext)
     {
         onReloaded?.Invoke();
     }
+
+  
     private void OnDisable()
     {
         moveAction.Disable();
         lookAction.Disable();
         fireAction.Disable();
         reloadAction.Disable();
+        dashAction.Disable();
     }
 }
