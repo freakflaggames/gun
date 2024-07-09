@@ -11,6 +11,8 @@ public class FPSController : MonoBehaviour
     Player player;
 
     // Movement
+    public bool canMove;
+
     [SerializeField]
     Camera PlayerCamera;
     [SerializeField]
@@ -64,9 +66,12 @@ public class FPSController : MonoBehaviour
         OnMove();
         OnLook();
 
-        characterController.Move(moveDirection * Time.deltaTime);
+        if (canMove)
+        {
+            characterController.Move(moveDirection * Time.deltaTime);
+        }
     }
-    void OnMove()
+        void OnMove()
     {
         Vector2 input = playerInput.Player.Move.ReadValue<Vector2>();
 

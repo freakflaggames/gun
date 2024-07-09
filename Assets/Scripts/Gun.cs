@@ -58,7 +58,16 @@ public class Gun : MonoBehaviour
 
             bool hitTarget = Physics.Raycast(camera.position, direction, out RaycastHit hit, maxDistance, TargetMask);
 
-            StartCoroutine(SpawnBullet(Bullet, hit.point, hit.normal, hit.collider.gameObject, hitTarget));
+            if (hitTarget)
+            {
+                StartCoroutine(SpawnBullet(Bullet, hit.point, hit.normal, hit.collider.gameObject, hitTarget));
+            }
+            else
+            {
+                StartCoroutine(SpawnBullet(Bullet, camera.forward * 10000, Vector3.zero, null, hitTarget));
+            }
+
+            AudioManager.Instance.PlaySound("gunshot");
 
             shotsLeft--;
 
@@ -119,10 +128,6 @@ public class Gun : MonoBehaviour
                 float damage = Damage * (headshot ? 2 : 1);
 
                 enemy.Damage(damage);
-            }
-            else
-            {
-                AudioManager.Instance.PlaySound("gunshot");
             }
 
             var impactInstance = Instantiate(ImpactParticleSystem, HitPoint + HitNormal * 0.1f, Quaternion.LookRotation(HitNormal));
