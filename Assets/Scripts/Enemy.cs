@@ -117,6 +117,8 @@ public class Enemy : MonoBehaviour
 
     void AlertPlayer()
     {
+        print("alerted");
+
         AlertGraphic.SetActive(true);
 
         float alertBounceAmount = 0.2f;
@@ -143,6 +145,8 @@ public class Enemy : MonoBehaviour
 
     void TelegraphShot()
     {
+        print("telegraphing");
+
         TelegraphGraphic.SetActive(true);
 
         float startScale = TelegraphGraphic.transform.localScale.x;
@@ -152,22 +156,28 @@ public class Enemy : MonoBehaviour
         //telegraph zoom in animation
 
         TelegraphGraphic.transform.DOLocalRotate(new Vector3(0, 0, 360), TelegraphLength, RotateMode.FastBeyond360)
-            .SetEase(Ease.OutSine)
-            .OnComplete(() =>
-            {
-                TelegraphGraphic.transform.localRotation = startRot;
-            });
+            .SetEase(Ease.OutSine);
 
         TelegraphGraphic.transform.DOScale(0, TelegraphLength)
             .SetEase(Ease.OutSine)
+            .OnKill(() =>
+            {
+                ResetTelegraph(startScale, startRot);
+            })
             .OnComplete(() =>
             {
-                TelegraphGraphic.transform.localScale = Vector3.one * startScale;
+                ResetTelegraph(startScale, startRot);
 
                 willShoot = true;
-
-                TelegraphGraphic.SetActive(false);
             });
+    }
+
+    void ResetTelegraph(float startScale, Quaternion startRot)
+    {
+        TelegraphGraphic.transform.localRotation = startRot;
+        TelegraphGraphic.transform.localScale = Vector3.one * startScale;
+
+        TelegraphGraphic.SetActive(false);
     }
 
     void CancelTelegraph()
@@ -177,6 +187,8 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator SpawnBullet(GameObject Bullet, Vector3 HitPoint)
     {
+        print("shot");
+
         Vector3 startPosition = Bullet.transform.position;
 
         float distance = Vector3.Distance(Bullet.transform.position, HitPoint);
