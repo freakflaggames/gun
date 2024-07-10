@@ -12,8 +12,7 @@ public class FPSController : MonoBehaviour
 
     // Movement
     public bool canMove;
-
-    
+    public bool canLook;
 
     [SerializeField]
     Camera PlayerCamera;
@@ -86,7 +85,6 @@ public class FPSController : MonoBehaviour
         OnMove();
         OnLook();
         
-
         if (canMove)
         {
             characterController.Move(moveDirection * Time.deltaTime);
@@ -141,15 +139,18 @@ public class FPSController : MonoBehaviour
 
     void OnLook()
     {
-        Vector2 lookInput = lookAction.ReadValue<Vector2>();
+        if (canLook)
+        {
+            Vector2 lookInput = lookAction.ReadValue<Vector2>();
 
-        rotationX += -lookInput.y * LookSpeed;
+            rotationX += -lookInput.y * LookSpeed;
 
-        rotationX = Mathf.Clamp(rotationX, -LookXLimit, LookXLimit);
+            rotationX = Mathf.Clamp(rotationX, -LookXLimit, LookXLimit);
 
-        PlayerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+            PlayerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
 
-        transform.rotation *= Quaternion.Euler(0, lookInput.x * LookSpeed, 0);
+            transform.rotation *= Quaternion.Euler(0, lookInput.x * LookSpeed, 0);
+        }
     }
 
     void OnGrapple(InputAction.CallbackContext callbackContext)
@@ -157,16 +158,20 @@ public class FPSController : MonoBehaviour
         onGrapple?.Invoke();
     }
 
-
-
     void OnFire(InputAction.CallbackContext callbackContext)
     {
-        onFired?.Invoke();
+        if (!player.isDead)
+        {
+            onFired?.Invoke();
+        }
     }
 
     void OnReload(InputAction.CallbackContext callbackContext)
     {
-        onReloaded?.Invoke();
+        if (!player.isDead)
+        {
+            onReloaded?.Invoke();
+        }
     }
 
   

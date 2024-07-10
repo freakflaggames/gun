@@ -8,31 +8,53 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance;
 
     [SerializeField]
+    AudioSource SFXSource;
+
+    [SerializeField]
+    AudioSource MusicSource;
+
+    [SerializeField]
     AudioClip[] AudioClips;
 
-    AudioSource source;
+    [SerializeField]
+    AudioClip MusicClip;
 
     Dictionary<string, AudioClip> clips = new Dictionary<string, AudioClip>();
     private void Awake()
     {
         Instance = this;
 
-        source = GetComponent<AudioSource>();
+        SFXSource = GetComponent<AudioSource>();
 
         for (int i = 0; i < AudioClips.Length; i++)
         {
             clips.Add(AudioClips[i].name, AudioClips[i]);
         }
     }
+    private void Start()
+    {
+        PlayMusic();
+    }
+
+    public void PlayMusic()
+    {
+        MusicSource.clip = MusicClip;
+        MusicSource.Play();
+    }
+
+    public void StopMusic()
+    {
+        MusicSource.Stop();
+    }
 
     public void PlaySound(string name)
     {
-        source.PlayOneShot(clips[name]);
+        SFXSource.PlayOneShot(clips[name]);
     }
 
     public void PlaySoundPitchVariant(string name, float minPitch, float maxPitch)
     {
-        source.pitch = Random.Range(minPitch, maxPitch);
+        SFXSource.pitch = Random.Range(minPitch, maxPitch);
         PlaySound(name);
     }
 }

@@ -108,13 +108,13 @@ MonoBehaviour:
   LookPoint: {fileID: 8351206334492593282}
   BulletSpawnPoint: {fileID: 6172708816318776069}
   BulletSpeed: 100
-  AggroDistance: 20
-  AlertGraphic: {fileID: 7448065584171308612}
-  AlertLength: 0.5
-  TelegraphGraphic: {fileID: 5750088997392489733}
-  TelegraphLength: 2
   TimeBetweenShots: 0.25
   BulletPrefab: {fileID: 4172450444823954066, guid: ab901c1172f4b9344894609a288b6297, type: 3}
+  AggroDistance: 20
+  AlertGraphic: {fileID: 7448065584171308612}
+  AlertLength: 0.25
+  TelegraphGraphic: {fileID: 5750088997392489733}
+  TelegraphLength: 1
   canSeePlayer: 0
   TargetMask:
     serializedVersion: 2

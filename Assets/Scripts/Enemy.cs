@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
 
     float health;
 
-    //Shooting
+    [Header("Shooting")]
 
     [SerializeField]
     Transform LookPoint;
@@ -21,9 +21,15 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     float BulletSpeed;
 
+    [SerializeField]
+    float TimeBetweenShots;
+
+    [SerializeField]
+    GameObject BulletPrefab;
+
     bool willShoot;
 
-    //Viewing + Displaying
+    [Header("Detection")]
 
     [SerializeField]
     float AggroDistance;
@@ -39,12 +45,6 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     float TelegraphLength;
-
-    [SerializeField]
-    float TimeBetweenShots;
-
-    [SerializeField]
-    GameObject BulletPrefab;
 
     Player player;
 
@@ -79,12 +79,13 @@ public class Enemy : MonoBehaviour
 
         if (Physics.Raycast(LookPoint.position, playerDir, out RaycastHit hit, AggroDistance, TargetMask))
         {
-            seesPlayer = hit.collider.tag == "Player";
+            seesPlayer = hit.collider.tag == "Player" && !player.isDead;
 
             if (willShoot)
             {
                 GameObject Bullet = Instantiate(BulletPrefab, BulletSpawnPoint.position, Quaternion.identity);
-                StartCoroutine(SpawnBullet(Bullet, hit.point));
+
+                StartCoroutine(SpawnBullet(Bullet, hit.point, seesPlayer));
 
                 willShoot = false;
             }
@@ -117,8 +118,6 @@ public class Enemy : MonoBehaviour
 
     void AlertPlayer()
     {
-        print("alerted");
-
         AlertGraphic.SetActive(true);
 
         float alertBounceAmount = 0.2f;
@@ -145,12 +144,9 @@ public class Enemy : MonoBehaviour
 
     void TelegraphShot()
     {
-        print("telegraphing");
-
         TelegraphGraphic.SetActive(true);
 
         float startScale = TelegraphGraphic.transform.localScale.x;
-
         Quaternion startRot = TelegraphGraphic.transform.localRotation;
 
         //telegraph zoom in animation
@@ -185,14 +181,14 @@ public class Enemy : MonoBehaviour
         TelegraphGraphic.transform.DOKill();
     }
 
-    private IEnumerator SpawnBullet(GameObject Bullet, Vector3 HitPoint)
+    private IEnumerator SpawnBullet(GameObject Bullet, Vector3 HitPoint, bool hitPlayer)
     {
-        print("shot");
-
         Vector3 startPosition = Bullet.transform.position;
 
         float distance = Vector3.Distance(Bullet.transform.position, HitPoint);
         float startingDistance = distance;
+
+        AudioManager.Instance.PlaySound("gunshot");
 
         while (distance > 0)
         {
@@ -203,6 +199,11 @@ public class Enemy : MonoBehaviour
         }
 
         Bullet.transform.position = HitPoint;
+
+        if (hitPlayer)
+        {
+            player.Die();
+        }
 
         StartCoroutine(WaitToShoot());
 

@@ -323,8 +323,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 8666965678374942225}
   canMove: 1
+  canLook: 1
   PlayerCamera: {fileID: 8846366149231835150}
-  WalkSpeed: 5
+  WalkSpeed: 10
   DashSpeed: 5
   DashDistance: 0.2
   LookSpeed: 0.2
@@ -342,6 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerGun: {fileID: 8597475983945339020}
+  isDead: 0
 --- !u!1 &7516366506257380534
 GameObject:
   m_ObjectHideFlags: 0

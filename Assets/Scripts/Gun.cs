@@ -64,7 +64,7 @@ public class Gun : MonoBehaviour
             }
             else
             {
-                StartCoroutine(SpawnBullet(Bullet, camera.forward * 10000, Vector3.zero, null, hitTarget));
+                StartCoroutine(SpawnBullet(Bullet, camera.forward * Camera.main.farClipPlane, Vector3.zero, null, hitTarget));
             }
 
             AudioManager.Instance.PlaySound("gunshot");

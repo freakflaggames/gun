@@ -5,31 +5,53 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    AudioManager audioManager;
     public float TimeLeft { get; private set; }
 
     [SerializeField]
     float MaxTime;
 
+    bool timerActive;
+
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        audioManager = AudioManager.Instance;
 
         TimeLeft = MaxTime;
+        timerActive = true;
 
         StartCoroutine(Tick());
     }
 
     private void Update()
     {
-        TimeLeft -= Time.deltaTime;
+        if (timerActive)
+        {
+            TimeLeft -= Time.deltaTime;
+        }
+    }
+
+    public void StopTimer()
+    {
+        timerActive = false;
+        audioManager.StopMusic();
     }
 
     IEnumerator Tick()
     {
-        AudioManager.Instance.PlaySound("tick");
+        audioManager.PlaySound("tick");
 
         yield return new WaitForSeconds(1);
 
-        StartCoroutine(Tick());
+        if (timerActive)
+        {
+            StartCoroutine(Tick());
+        }
     }
 }
