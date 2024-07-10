@@ -62,6 +62,17 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
+        LookForPlayer();
+    }
+
+    private void LateUpdate()
+    {
+        var lookDir = player.transform.position - transform.position;
+        lookDir.y = 0;
+        transform.rotation = Quaternion.LookRotation(-lookDir);
+    }
+    void LookForPlayer()
+    {
         Vector3 playerDir = (player.transform.position - LookPoint.position).normalized;
 
         bool seesPlayer = false;
@@ -86,19 +97,22 @@ public class Enemy : MonoBehaviour
             OnSawPlayer();
         }
 
-        canSeePlayer = seesPlayer;
-    }
+        if (canSeePlayer && !seesPlayer)
+        {
+            OnLostPlayer();
+        }
 
-    private void LateUpdate()
-    {
-        var lookDir = player.transform.position - transform.position;
-        lookDir.y = 0;
-        transform.rotation = Quaternion.LookRotation(-lookDir);
+        canSeePlayer = seesPlayer;
     }
 
     void OnSawPlayer()
     {
         AlertPlayer();
+    }
+
+    void OnLostPlayer()
+    {
+        CancelTelegraph();
     }
 
     void AlertPlayer()
@@ -109,6 +123,8 @@ public class Enemy : MonoBehaviour
 
         Vector3 startPos = AlertGraphic.transform.localPosition;
         Vector3 newPos = startPos + (transform.up * alertBounceAmount);
+
+        //alert pop up animation
 
         AlertGraphic.transform.DOLocalMoveY(newPos.y, AlertLength)
             .SetEase(Ease.OutSine)
@@ -133,6 +149,8 @@ public class Enemy : MonoBehaviour
 
         Quaternion startRot = TelegraphGraphic.transform.localRotation;
 
+        //telegraph zoom in animation
+
         TelegraphGraphic.transform.DOLocalRotate(new Vector3(0, 0, 360), TelegraphLength, RotateMode.FastBeyond360)
             .SetEase(Ease.OutSine)
             .OnComplete(() =>
@@ -150,6 +168,11 @@ public class Enemy : MonoBehaviour
 
                 TelegraphGraphic.SetActive(false);
             });
+    }
+
+    void CancelTelegraph()
+    {
+        TelegraphGraphic.transform.DOKill();
     }
 
     private IEnumerator SpawnBullet(GameObject Bullet, Vector3 HitPoint)
@@ -177,6 +200,7 @@ public class Enemy : MonoBehaviour
     private IEnumerator WaitToShoot()
     {
         yield return new WaitForSeconds(TimeBetweenShots);
+
         if (canSeePlayer)
         {
             TelegraphShot();
@@ -198,7 +222,11 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        TelegraphGraphic.transform.DOKill();
+        AlertGraphic.transform.DOKill();
+
         AudioManager.Instance.PlaySound("enemyKill");
+
         Destroy(gameObject);
     }
 }

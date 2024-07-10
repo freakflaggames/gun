@@ -46,7 +46,6 @@ public class AmmoUI : MonoBehaviour
         {
             ReloadBar.fillAmount = timer / reloadTime;
             timer += Time.deltaTime;
-            print(timer);
             yield return null;
         }
 

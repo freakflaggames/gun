@@ -18,7 +18,7 @@ public class Railcar : MonoBehaviour
 
     bool end;
 
-    Transform passenger;
+    public Transform passenger;
 
     Vector3 seatedPosition;
 
@@ -27,6 +27,7 @@ public class Railcar : MonoBehaviour
         if (other.tag == "Player")
         {
             passenger = other.transform;
+
             PassengerEnter();
         }
     }
@@ -43,14 +44,20 @@ public class Railcar : MonoBehaviour
 
     void PassengerEnter()
     {
-        passenger.GetComponent<FPSController>().canMove = false;
-        StartCar();
+        if (passenger)
+        {
+            passenger.GetComponent<FPSController>().canMove = false;
+            StartCar();
+        }
     }
 
     void PassengerExit()
     {
-        passenger.GetComponent<FPSController>().canMove = true;
-        passenger = null;
+        if (passenger)
+        {
+            passenger.GetComponent<FPSController>().canMove = true;
+            passenger = null;
+        }
     }
 
     void StartCar()
