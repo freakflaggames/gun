@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 246795910675410051}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Bullet Spawn Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,9 +43,9 @@ GameObject:
   - component: {fileID: 4455820368863057385}
   - component: {fileID: 8345534957645063406}
   - component: {fileID: 6654140924391649429}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 1969994752803940477}
   - component: {fileID: 2172917956222459588}
   - component: {fileID: 8597475983945339020}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +245,7 @@ MonoBehaviour:
   BulletPrefab: {fileID: 4172450444823954066, guid: 3288fbaea5a3636449e0feeb6ee0538d, type: 3}
   TargetMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 264
   ImpactParticleSystem: {fileID: 4377415134318951291, guid: bfb6362d82fbff14984e7bbcb69a2098, type: 3}
 --- !u!1 &6734590391325266964
 GameObject:
@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 1757216905042839387}
   - component: {fileID: 6623657428694143895}
   - component: {fileID: 8666965678374942225}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -274,7 +274,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6734590391325266964}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.13, y: 1.395, z: -8.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 6260299112854606572}
   - component: {fileID: 8846366149231835150}
   - component: {fileID: 6366290958587351344}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
