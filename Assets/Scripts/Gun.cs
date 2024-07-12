@@ -118,7 +118,7 @@ public class Gun : MonoBehaviour
 
         Destroy(Bullet);
 
-        if (MadeImpact)
+        if (MadeImpact && other)
         {
             if (other.transform.parent.tag == "Enemy")
             {

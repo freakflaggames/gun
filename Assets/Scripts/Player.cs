@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 [RequireComponent(typeof(FPSController))]
 public class Player : MonoBehaviour
@@ -32,6 +33,8 @@ public class Player : MonoBehaviour
         onPlayerDeath?.Invoke();
 
         gameManager.StopTimer();
+
+        transform.DOLocalRotate(new Vector3(0, 0, -45), 1.5f, RotateMode.Fast).SetEase(Ease.OutBounce);
         
         movement.canMove = false;
         movement.canLook = false;
