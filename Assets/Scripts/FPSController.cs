@@ -10,12 +10,14 @@ public class FPSController : MonoBehaviour
     [SerializeField]
     Player player;
 
-    // Movement
+    [SerializeField]
+    Camera PlayerCamera;
+
+    [Header("Movement")]
+
     public bool canMove;
     public bool canLook;
 
-    [SerializeField]
-    Camera PlayerCamera;
     [SerializeField]
     float WalkSpeed = 6f;
 
@@ -25,23 +27,30 @@ public class FPSController : MonoBehaviour
     [SerializeField]
     float DashDistance = 3f;
 
+    public Vector3 dashDirection { get; private set; } = Vector3.zero;
+
+    public bool isDashing { get; private set; }
+
     [SerializeField]
     float LookSpeed = .1f;
+
     [SerializeField]
     float LookXLimit = 45f;
 
     Vector3 moveDirection = Vector3.zero;
 
-    Vector3 dashDirection = Vector3.zero;
-
     float rotationX = 0;
 
-    // Shooting
+    //Actions
+
     public delegate void Fired();
     public static event Fired onFired;
 
     public delegate void Reloaded();
     public static event Reloaded onReloaded;
+
+    public delegate void Dashed(Vector3 direction);
+    public static event Dashed onDashed;
 
     public delegate void Grappled();
     public static event Grappled onGrapple;
@@ -119,8 +128,11 @@ public class FPSController : MonoBehaviour
 
         dashDirection = (forward * speedX) + (right * speedY);
 
-        StartCoroutine(DashCoroutine());
-        
+        if (direction != Vector2.zero && !player.isDead)
+        { 
+            StartCoroutine(DashCoroutine());
+            onDashed?.Invoke(direction);
+        }
 
     }
 
@@ -128,12 +140,16 @@ public class FPSController : MonoBehaviour
     {
         float startTime = Time.time;
 
+        isDashing = true;
+
         while (Time.time < startTime + DashDistance)
         {
             characterController.Move(dashDirection * DashSpeed * Time.deltaTime);
           
             yield return null; 
         }
+
+        isDashing = false;
     }
 
 
