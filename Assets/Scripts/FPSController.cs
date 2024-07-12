@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(CharacterController))]
@@ -11,7 +12,7 @@ public class FPSController : MonoBehaviour
     Player player;
 
     [SerializeField]
-    Camera PlayerCamera;
+    CinemachineVirtualCamera VirtualCamera;
 
     [Header("Movement")]
 
@@ -164,7 +165,7 @@ public class FPSController : MonoBehaviour
 
             rotationX = Mathf.Clamp(rotationX, -LookXLimit, LookXLimit);
 
-            PlayerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+            VirtualCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
 
             transform.rotation *= Quaternion.Euler(0, lookInput.x * LookSpeed, 0);
         }
