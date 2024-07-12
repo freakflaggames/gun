@@ -23,7 +23,31 @@ public class AudioManager : MonoBehaviour
         {
             clips.Add(AudioClips[i].name, AudioClips[i]);
         }
+
+        MusicSource.clip = MusicClip;
     }
+<<<<<<< Updated upstream
+=======
+    private void Start()
+    {
+        PlayMusic();
+    }
+
+    public void PlayMusic()
+    {
+        MusicSource.Play();
+    }
+
+    public void PauseMusic()
+    {
+        MusicSource.Pause();
+    }
+
+    public void StopMusic()
+    {
+        MusicSource.Stop();
+    }
+>>>>>>> Stashed changes
 
     public void PlaySound(string name)
     {
