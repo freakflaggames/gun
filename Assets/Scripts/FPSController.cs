@@ -39,13 +39,6 @@ public class FPSController : MonoBehaviour
 
     Vector3 moveDirection = Vector3.zero;
 
-<<<<<<< Updated upstream
-=======
-    public Vector3 dashDirection { get; private set; } = Vector3.zero;
-
-    public bool isDashing;
-
->>>>>>> Stashed changes
     float rotationX = 0;
 
     //Actions
@@ -135,19 +128,11 @@ public class FPSController : MonoBehaviour
 
         dashDirection = (forward * speedX) + (right * speedY);
 
-<<<<<<< Updated upstream
         if (direction != Vector2.zero && !player.isDead)
         { 
             StartCoroutine(DashCoroutine());
             onDashed?.Invoke(direction);
         }
-
-=======
-        if (dashDirection != Vector3.zero && !player.isDead)
-        {
-            StartCoroutine(DashCoroutine());
-        }
->>>>>>> Stashed changes
     }
 
     IEnumerator DashCoroutine()
