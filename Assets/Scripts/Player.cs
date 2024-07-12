@@ -33,7 +33,6 @@ public class Player : MonoBehaviour
 
         gameManager.StopTimer();
         
-
         movement.canMove = false;
         movement.canLook = false;
 

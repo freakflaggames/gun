@@ -35,12 +35,6 @@ public class Enemy : MonoBehaviour
     float AggroDistance;
 
     [SerializeField]
-    GameObject AlertGraphic;
-
-    [SerializeField]
-    float AlertLength;
-
-    [SerializeField]
     GameObject TelegraphGraphic;
 
     [SerializeField]
@@ -49,6 +43,8 @@ public class Enemy : MonoBehaviour
     Player player;
 
     public bool canSeePlayer;
+    bool isTelegraphing;
+    bool isWaiting;
 
     [SerializeField]
     LayerMask TargetMask;
@@ -75,74 +71,54 @@ public class Enemy : MonoBehaviour
     {
         Vector3 playerDir = (player.transform.position - LookPoint.position).normalized;
 
-        bool seesPlayer = false;
+        canSeePlayer = false;
 
         if (Physics.Raycast(LookPoint.position, playerDir, out RaycastHit hit, AggroDistance, TargetMask))
         {
-            seesPlayer = hit.collider.tag == "Player" && !player.isDead;
+            canSeePlayer = hit.collider.tag == "Player" && !player.isDead;
 
             if (willShoot)
             {
-                GameObject Bullet = Instantiate(BulletPrefab, BulletSpawnPoint.position, Quaternion.identity);
-
-                StartCoroutine(SpawnBullet(Bullet, hit.point, seesPlayer));
-
-                willShoot = false;
+                Shoot(hit.point);
             }
 
-            Debug.DrawLine(LookPoint.position, hit.point, seesPlayer ? Color.green : Color.red);
+            Debug.DrawLine(LookPoint.position, hit.point, canSeePlayer ? Color.green : Color.red);
         }
 
-        if (!canSeePlayer && seesPlayer)
+        if (canSeePlayer && !isTelegraphing && !isWaiting)
         {
-            OnSawPlayer();
+            StartCoroutine(StartTelegraph());
         }
-
-        if (canSeePlayer && !seesPlayer)
-        {
-            OnLostPlayer();
-        }
-
-        canSeePlayer = seesPlayer;
     }
 
-    void OnSawPlayer()
+    void Shoot(Vector3 hitPoint)
     {
-        AlertPlayer();
+        FPSController playerMovement = player.gameObject.GetComponent<FPSController>();
+
+        bool hitPlayer = canSeePlayer && !playerMovement.isDashing;
+
+        GameObject Bullet = Instantiate(BulletPrefab, BulletSpawnPoint.position, Quaternion.identity);
+
+        StartCoroutine(SpawnBullet(Bullet, hitPoint, hitPlayer));
+
+        StartCoroutine(WaitToShoot());
+
+        willShoot = false;
     }
 
-    void OnLostPlayer()
+    IEnumerator StartTelegraph()
     {
-        CancelTelegraph();
+        isTelegraphing = true;
+
+        TelegraphAnimation();
+
+        yield return new WaitForSeconds(TelegraphLength);
+
+        willShoot = true;
+        isTelegraphing = false;
     }
 
-    void AlertPlayer()
-    {
-        AlertGraphic.SetActive(true);
-
-        float alertBounceAmount = 0.2f;
-
-        Vector3 startPos = AlertGraphic.transform.localPosition;
-        Vector3 newPos = startPos + (transform.up * alertBounceAmount);
-
-        //alert pop up animation
-
-        AlertGraphic.transform.DOLocalMoveY(newPos.y, AlertLength)
-            .SetEase(Ease.OutSine)
-            .OnComplete(() =>
-            {
-                AlertGraphic.transform.localPosition = startPos;
-
-                if (canSeePlayer)
-                {
-                    TelegraphShot();
-                }
-
-                AlertGraphic.SetActive(false);
-            });
-    }
-
-    void TelegraphShot()
+    void TelegraphAnimation()
     {
         TelegraphGraphic.SetActive(true);
 
@@ -163,8 +139,6 @@ public class Enemy : MonoBehaviour
             .OnComplete(() =>
             {
                 ResetTelegraph(startScale, startRot);
-
-                willShoot = true;
             });
     }
 
@@ -174,11 +148,6 @@ public class Enemy : MonoBehaviour
         TelegraphGraphic.transform.localScale = Vector3.one * startScale;
 
         TelegraphGraphic.SetActive(false);
-    }
-
-    void CancelTelegraph()
-    {
-        TelegraphGraphic.transform.DOKill();
     }
 
     private IEnumerator SpawnBullet(GameObject Bullet, Vector3 HitPoint, bool hitPlayer)
@@ -205,19 +174,16 @@ public class Enemy : MonoBehaviour
             player.Die();
         }
 
-        StartCoroutine(WaitToShoot());
-
         Destroy(Bullet);
     }
 
     private IEnumerator WaitToShoot()
     {
+        isWaiting = true;
+
         yield return new WaitForSeconds(TimeBetweenShots);
 
-        if (canSeePlayer)
-        {
-            TelegraphShot();
-        }
+        isWaiting = false;
     }
 
     public void Damage(float damage)
@@ -236,7 +202,6 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         TelegraphGraphic.transform.DOKill();
-        AlertGraphic.transform.DOKill();
 
         AudioManager.Instance.PlaySound("enemyKill");
 
