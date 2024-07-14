@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 422594010315039994}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -201,7 +201,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 20
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5314,7 +5314,7 @@ MonoBehaviour:
   m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
   m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 0
-  m_FrequencyGain: 0
+  m_FrequencyGain: 5
   mNoiseOffsets: {x: 843.7217, y: -110.67569, z: -45.52426}
 --- !u!1 &6734590391325266964
 GameObject:
@@ -5393,7 +5393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 8666965678374942225}
-  PlayerCamera: {fileID: 8846366149231835150}
+  VirtualCamera: {fileID: 2973229796012464326}
   canMove: 1
   canLook: 1
   WalkSpeed: 10
@@ -5556,6 +5556,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VirtualCamera: {fileID: 2973229796012464326}
-  ScreenShakeAmplitude: 0.1
-  ScreenShakeFrequency: 0.1
-  ScreenShakeTime: 0.1
+  ScreenShakeAmplitude: 5
+  ScreenShakeTime: 0.15

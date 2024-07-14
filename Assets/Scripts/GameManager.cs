@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
         TimeLeft = MaxTime;
         timerActive = true;
 
-        StartCoroutine(Tick());
+        //StartCoroutine(Tick());
     }
 
     private void Update()

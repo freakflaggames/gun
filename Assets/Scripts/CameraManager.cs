@@ -12,35 +12,45 @@ public class CameraManager : MonoBehaviour
     float ScreenShakeAmplitude;
 
     [SerializeField]
-    float ScreenShakeFrequency;
-
-    [SerializeField]
     float ScreenShakeTime;
+
+    float screenShakeTimer;
+
+    Player player;
 
     private void OnEnable()
     {
-        FPSController.onFired += ScreenShake;
+        FPSController.onFired += StartScreenShake;
+    }
+    private void Awake()
+    {
+        player = FindAnyObjectByType<Player>();
+    }
+    private void Update()
+    {
+        ScreenShake();
+    }
+    void StartScreenShake()
+    {
+        if (player.playerGun.shotsLeft > 0)
+        {
+            screenShakeTimer = ScreenShakeTime;
+        }
     }
     public void ScreenShake()
     {
-        StartCoroutine(StartScreenShake());
-    }
-
-    IEnumerator StartScreenShake()
-    {
         var noise = VirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
-        noise.m_AmplitudeGain = ScreenShakeAmplitude;
-        noise.m_FrequencyGain = ScreenShakeFrequency;
+        if (screenShakeTimer > 0)
+        {
+            screenShakeTimer -= Time.deltaTime;
+        }
 
-        yield return new WaitForSeconds(ScreenShakeTime);
-
-        noise.m_AmplitudeGain = 0;
-        noise.m_FrequencyGain = 0;
+        noise.m_AmplitudeGain = Mathf.Lerp(0, ScreenShakeAmplitude, screenShakeTimer / ScreenShakeTime);
     }
 
     private void OnDisable()
     {
-        FPSController.onFired -= ScreenShake;
+        FPSController.onFired -= StartScreenShake;
     }
 }
