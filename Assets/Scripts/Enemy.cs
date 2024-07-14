@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     GameObject BulletPrefab;
 
+    Vector3 hitPoint;
     bool willShoot;
 
     [Header("Detection")]
@@ -43,8 +44,8 @@ public class Enemy : MonoBehaviour
     Player player;
 
     public bool canSeePlayer;
-    bool isTelegraphing;
-    bool isWaiting;
+    public bool isTelegraphing;
+    public bool isWaiting;
 
     [SerializeField]
     LayerMask TargetMask;
@@ -59,6 +60,7 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         LookForPlayer();
+        CheckForShoot();
     }
 
     private void LateUpdate()
@@ -77,10 +79,7 @@ public class Enemy : MonoBehaviour
         {
             canSeePlayer = hit.collider.tag == "Player" && !player.isDead;
 
-            if (willShoot)
-            {
-                Shoot(hit.point);
-            }
+            hitPoint = hit.point;
 
             Debug.DrawLine(LookPoint.position, hit.point, canSeePlayer ? Color.green : Color.red);
         }
@@ -91,31 +90,16 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void Shoot(Vector3 hitPoint)
+    void CheckForShoot()
     {
-        FPSController playerMovement = player.gameObject.GetComponent<FPSController>();
+        if (willShoot)
+        {
+            Shoot(hitPoint);
 
-        bool hitPlayer = canSeePlayer && !playerMovement.isDashing;
+            StartCoroutine(WaitToShoot());
 
-        GameObject Bullet = Instantiate(BulletPrefab, BulletSpawnPoint.position, Quaternion.identity);
-
-        StartCoroutine(SpawnBullet(Bullet, hitPoint, hitPlayer));
-
-        StartCoroutine(WaitToShoot());
-
-        willShoot = false;
-    }
-
-    IEnumerator StartTelegraph()
-    {
-        isTelegraphing = true;
-
-        TelegraphAnimation();
-
-        yield return new WaitForSeconds(TelegraphLength);
-
-        willShoot = true;
-        isTelegraphing = false;
+            willShoot = false;
+        }
     }
 
     void TelegraphAnimation()
@@ -148,6 +132,31 @@ public class Enemy : MonoBehaviour
         TelegraphGraphic.transform.localScale = Vector3.one * startScale;
 
         TelegraphGraphic.SetActive(false);
+    }
+
+    void Shoot(Vector3 hitPoint)
+    {
+        FPSController playerMovement = player.gameObject.GetComponent<FPSController>();
+
+        bool hitPlayer = canSeePlayer && !playerMovement.isDashing;
+
+        GameObject Bullet = Instantiate(BulletPrefab, BulletSpawnPoint.position, Quaternion.identity);
+
+        StartCoroutine(SpawnBullet(Bullet, hitPoint, hitPlayer));
+
+        willShoot = false;
+        isTelegraphing = false;
+    }
+
+    IEnumerator StartTelegraph()
+    {
+        isTelegraphing = true;
+
+        TelegraphAnimation();
+
+        yield return new WaitForSeconds(TelegraphLength);
+
+        willShoot = true;
     }
 
     private IEnumerator SpawnBullet(GameObject Bullet, Vector3 HitPoint, bool hitPlayer)
