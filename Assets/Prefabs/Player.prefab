@@ -5396,8 +5396,8 @@ MonoBehaviour:
   VirtualCamera: {fileID: 2973229796012464326}
   canMove: 1
   canLook: 1
-  WalkSpeed: 10
-  DashSpeed: 5
+  WalkSpeed: 20
+  DashSpeed: 10
   DashDistance: 0.2
   LookSpeed: 0.2
   LookXLimit: 45

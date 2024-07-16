@@ -65,9 +65,7 @@ public class Enemy : MonoBehaviour
 
     private void LateUpdate()
     {
-        var lookDir = player.transform.position - transform.position;
-        lookDir.y = 0;
-        transform.rotation = Quaternion.LookRotation(-lookDir);
+        LookAtPlayer();
     }
     void LookForPlayer()
     {
@@ -88,6 +86,18 @@ public class Enemy : MonoBehaviour
         {
             StartCoroutine(StartTelegraph());
         }
+    }
+    
+    void LookAtPlayer()
+    {
+        var lookDir = player.transform.position - transform.position;
+
+        if (transform.position.y <= player.transform.position.y)
+        {
+            lookDir.y = 0;
+        }
+
+        transform.rotation = Quaternion.LookRotation(-lookDir);
     }
 
     void CheckForShoot()
