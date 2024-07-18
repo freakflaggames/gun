@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.14524342, g: 0.13572444, b: 0.12860303, a: 1}
+  m_IndirectSpecularColor: {r: 0.17489421, g: 0.17678976, b: 0.17712478, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -203,6 +203,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 9afe4afe843f8a54caabfc9e4fb49c39, type: 2}
+    - target: {fileID: 689171893491128384, guid: b32a6536ad43ba046bb7e1b29ad75a36, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1ba760279d831934bb747a8007a90fd0, type: 2}
     - target: {fileID: 915627424447023429, guid: b32a6536ad43ba046bb7e1b29ad75a36, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -698,13 +702,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 912011054}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.99980634, z: 0.019682536, w: 0}
-  m_LocalPosition: {x: -2.02, y: 19.97, z: -10}
+  m_LocalRotation: {x: -0, y: 0.98458797, z: 0.17489004, w: 0}
+  m_LocalPosition: {x: -2.02, y: 19.28, z: -10.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -2.256, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: -20.145, y: 180, z: 0}
 --- !u!114 &912011058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1218,6 +1222,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 9afe4afe843f8a54caabfc9e4fb49c39, type: 2}
+    - target: {fileID: 689171893491128384, guid: ed1479744debdac4da50d8cb0fedd3bd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1ba760279d831934bb747a8007a90fd0, type: 2}
     - target: {fileID: 915627424447023429, guid: ed1479744debdac4da50d8cb0fedd3bd, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
