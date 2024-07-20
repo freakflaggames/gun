@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
     bool timerActive;
 
+    bool audibleTick;
+
     private void Awake()
     {
         Instance = this;
@@ -26,7 +28,12 @@ public class GameManager : MonoBehaviour
         TimeLeft = MaxTime;
         timerActive = true;
 
-        //StartCoroutine(Tick());
+        StartCoroutine(Tick());
+    }
+
+    private void OnEnable()
+    {
+        Boss.onActivated += OnBossActivated;
     }
 
     private void Update()
@@ -43,9 +50,19 @@ public class GameManager : MonoBehaviour
         audioManager.StopMusic();
     }
 
+    void OnBossActivated()
+    {
+        audioManager.StopMusic();
+
+        audibleTick = true;
+    }
+
     IEnumerator Tick()
     {
-        audioManager.PlaySound("tick");
+        if (audibleTick)
+        {
+            audioManager.PlaySound("tick");
+        }
 
         yield return new WaitForSeconds(1);
 
@@ -53,5 +70,10 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(Tick());
         }
+    }
+
+    private void OnDisable()
+    {
+        Boss.onActivated -= OnBossActivated;
     }
 }

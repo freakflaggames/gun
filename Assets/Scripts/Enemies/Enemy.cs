@@ -6,9 +6,9 @@ using DG.Tweening;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    float MaxHealth;
+    public float MaxHealth;
 
-    float health;
+    public float health { get; private set; }
 
     [Header("Shooting")]
 
@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     float TelegraphLength;
 
-    Player player;
+    public Player player;
 
     public bool canSeePlayer;
     public bool isTelegraphing;
