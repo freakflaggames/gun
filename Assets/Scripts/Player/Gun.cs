@@ -59,9 +59,9 @@ public class Gun : MonoBehaviour
         {
             Transform camera = Camera.main.transform;
 
-            if (Physics.Raycast(camera, camera.forward, ))
+            //if (Physics.Raycast(camera, camera.forward, ))
 
-            SpawnBullet(BulletPrefab, BulletSpawnPoint.transform, lookPos);
+            //SpawnBullet(BulletPrefab, BulletSpawnPoint.transform, lookPos);
 
             AudioManager.Instance.PlaySound("gunshot");
 
