@@ -116,7 +116,7 @@ public class Gun : MonoBehaviour
 
         Bullet.transform.position = HitPoint;
 
-        if (MadeImpact && other)
+        if (MadeImpact && other.transform.parent)
         {
             if (other.transform.parent.tag == "Enemy")
             {
