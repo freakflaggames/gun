@@ -26,7 +26,10 @@ public class Player : MonoBehaviour
     {
         gameManager = GameManager.Instance;
     }
-
+    public void AddAmmo(int ammoCount)
+    {
+        playerGun.AddAmmo(ammoCount);
+    }
     public void Die()
     {
         isDead = true;
