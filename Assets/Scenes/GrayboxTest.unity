@@ -4022,6 +4022,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5254720952230614062, guid: 43619a6522a92014e9edff5f63df9bae, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: GrayboxTest
+      objectReference: {fileID: 0}
     - target: {fileID: 5514565908458802815, guid: 43619a6522a92014e9edff5f63df9bae, type: 3}
       propertyPath: m_Name
       value: UI

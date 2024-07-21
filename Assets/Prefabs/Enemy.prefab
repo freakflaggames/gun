@@ -107,7 +107,7 @@ MonoBehaviour:
   MaxHealth: 2
   LookPoint: {fileID: 8351206334492593282}
   BulletSpawnPoint: {fileID: 6172708816318776069}
-  BulletSpeed: 150
+  BulletSpeed: 250
   TimeBetweenShots: 0.5
   BulletPrefab: {fileID: 4172450444823954066, guid: ab901c1172f4b9344894609a288b6297, type: 3}
   AggroDistance: 15

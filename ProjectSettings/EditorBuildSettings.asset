@@ -8,10 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StartScreen.unity
     guid: f5d2963cb970bfb4bbb80b2301c2b59b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/OldTestScenes/Enemies Testing.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/OldTestScenes/Boss Testing.unity
     guid: 6886784f2ba3acc4887799b3eed5b510
+  - enabled: 1
+    path: Assets/Scenes/GrayboxTest.unity
+    guid: aa716cf2f2b8e4ba3a9649294d9485c7
   m_configObjects: {}
