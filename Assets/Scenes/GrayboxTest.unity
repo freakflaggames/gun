@@ -241,18 +241,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: 4356418256345168912, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4356418256345168912, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5183418700534431161, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: AggroDistance
-      value: 25
-      objectReference: {fileID: 0}
     - target: {fileID: 9039180099748027364, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.02
@@ -1309,10 +1297,6 @@ PrefabInstance:
     - target: {fileID: 1075929143562183061, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_Name
       value: Enemy (11)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5183418700534431161, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: AggroDistance
-      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 9039180099748027364, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2663,10 +2647,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (3)
       objectReference: {fileID: 0}
-    - target: {fileID: 5183418700534431161, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: AggroDistance
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 9039180099748027364, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_LocalPosition.x
       value: 58.58
@@ -3249,10 +3229,6 @@ PrefabInstance:
     - target: {fileID: 1075929143562183061, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_Name
       value: Enemy (12)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5183418700534431161, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: AggroDistance
-      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 9039180099748027364, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4052,7 +4028,55 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5514565908458802815, guid: 43619a6522a92014e9edff5f63df9bae, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924999791693410436, guid: 43619a6522a92014e9edff5f63df9bae, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924999791693410436, guid: 43619a6522a92014e9edff5f63df9bae, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924999791693410436, guid: 43619a6522a92014e9edff5f63df9bae, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924999791693410436, guid: 43619a6522a92014e9edff5f63df9bae, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7233321412363771387, guid: 43619a6522a92014e9edff5f63df9bae, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7233321412363771387, guid: 43619a6522a92014e9edff5f63df9bae, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7233321412363771387, guid: 43619a6522a92014e9edff5f63df9bae, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7233321412363771387, guid: 43619a6522a92014e9edff5f63df9bae, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7319848671714507455, guid: 43619a6522a92014e9edff5f63df9bae, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7319848671714507455, guid: 43619a6522a92014e9edff5f63df9bae, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7319848671714507455, guid: 43619a6522a92014e9edff5f63df9bae, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7319848671714507455, guid: 43619a6522a92014e9edff5f63df9bae, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4070,10 +4094,6 @@ PrefabInstance:
     - target: {fileID: 1075929143562183061, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_Name
       value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 5183418700534431161, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: AggroDistance
-      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 9039180099748027364, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4246,14 +4266,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (10)
       objectReference: {fileID: 0}
-    - target: {fileID: 4356418256345168912, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5183418700534431161, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: AggroDistance
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 9039180099748027364, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.98
@@ -4310,14 +4322,6 @@ PrefabInstance:
     - target: {fileID: 1075929143562183061, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_Name
       value: Enemy (6)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1075929143562183061, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5183418700534431161, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: AggroDistance
-      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 9039180099748027364, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5102,14 +5106,6 @@ PrefabInstance:
     - target: {fileID: 1075929143562183061, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_Name
       value: Enemy (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1075929143562183061, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5183418700534431161, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: AggroDistance
-      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 9039180099748027364, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6380,8 +6376,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6623657428694143895, guid: 95a7ef24e2b4d6649b344671303b54f7, type: 3}
+      propertyPath: DashSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623657428694143895, guid: 95a7ef24e2b4d6649b344671303b54f7, type: 3}
       propertyPath: LookSpeed
-      value: 0.5
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6734590391325266964, guid: 95a7ef24e2b4d6649b344671303b54f7, type: 3}
       propertyPath: m_Name
@@ -7438,10 +7438,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 5183418700534431161, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: AggroDistance
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 9039180099748027364, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_LocalPosition.x
       value: 62.704
@@ -7517,7 +7513,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.37719297, b: 0, a: 1}
-  m_Intensity: 40
+  m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -8005,10 +8001,6 @@ PrefabInstance:
     - target: {fileID: 1075929143562183061, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_Name
       value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 5183418700534431161, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: AggroDistance
-      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 9039180099748027364, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9292,18 +9284,6 @@ PrefabInstance:
     - target: {fileID: 1075929143562183061, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_Name
       value: Enemy (9)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4356418256345168912, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4356418256345168912, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5183418700534431161, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: AggroDistance
-      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 9039180099748027364, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11025,14 +11005,6 @@ PrefabInstance:
     - target: {fileID: 1075929143562183061, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_Name
       value: Enemy (5)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1075929143562183061, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5183418700534431161, guid: 02e736fe66511b74482057abc379f211, type: 3}
-      propertyPath: AggroDistance
-      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 9039180099748027364, guid: 02e736fe66511b74482057abc379f211, type: 3}
       propertyPath: m_LocalPosition.x

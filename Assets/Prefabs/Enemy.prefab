@@ -110,13 +110,13 @@ MonoBehaviour:
   BulletSpeed: 150
   TimeBetweenShots: 0.5
   BulletPrefab: {fileID: 4172450444823954066, guid: ab901c1172f4b9344894609a288b6297, type: 3}
-  AggroDistance: 20
+  AggroDistance: 15
   TelegraphGraphic: {fileID: 5750088997392489733}
   TelegraphLength: 1
   player: {fileID: 0}
   canSeePlayer: 0
   isTelegraphing: 0
-  isWaiting: 1
+  isWaiting: 0
   TargetMask:
     serializedVersion: 2
     m_Bits: 392
