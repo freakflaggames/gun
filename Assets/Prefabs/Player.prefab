@@ -5288,7 +5288,7 @@ MonoBehaviour:
   canMove: 1
   canLook: 1
   WalkSpeed: 20
-  DashSpeed: 5
+  DashSpeed: 10
   DashDistance: 0.2
   LookSpeed: 0.2
   LookXLimit: 45
