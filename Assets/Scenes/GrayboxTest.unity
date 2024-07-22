@@ -10757,7 +10757,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6623657428694143895, guid: 95a7ef24e2b4d6649b344671303b54f7, type: 3}
       propertyPath: LookSpeed
-      value: 0.2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6734590391325266964, guid: 95a7ef24e2b4d6649b344671303b54f7, type: 3}
       propertyPath: m_Name
@@ -11559,10 +11559,6 @@ PrefabInstance:
     - target: {fileID: 4412728035635946344, guid: d1f180c617afe1e4eb36da713706a4d7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6154152282595283872, guid: d1f180c617afe1e4eb36da713706a4d7, type: 3}
-      propertyPath: resetBestTime
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
