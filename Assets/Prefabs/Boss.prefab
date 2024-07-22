@@ -63,9 +63,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9039180099748027364}
+  - component: {fileID: 6319125462834419735}
   - component: {fileID: 5183418700534431161}
+  - component: {fileID: 8076433951169746976}
   m_Layer: 8
-  m_Name: Enemy
+  m_Name: Boss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,9 +82,9 @@ Transform:
   m_GameObject: {fileID: 1075929143562183061}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -0.13, y: 0, z: 15.700001}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4356418256345168912}
   - {fileID: 6172708816318776069}
@@ -92,6 +94,32 @@ Transform:
   - {fileID: 8351206334492593282}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!143 &6319125462834419735
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1075929143562183061}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2.86
+  m_Radius: 0.5000001
+  m_SlopeLimit: 0
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5183418700534431161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,13 +132,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef19a6b261e5ff94690b1f000c9a076e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealth: 2
+  MaxHealth: 20
   LookPoint: {fileID: 8351206334492593282}
   BulletSpawnPoint: {fileID: 6172708816318776069}
-  BulletSpeed: 250
+  BulletSpeed: 200
   TimeBetweenShots: 0.5
   BulletPrefab: {fileID: 4172450444823954066, guid: ab901c1172f4b9344894609a288b6297, type: 3}
-  AggroDistance: 15
+  AggroDistance: 100
   TelegraphGraphic: {fileID: 5750088997392489733}
   TelegraphLength: 1
   player: {fileID: 0}
@@ -120,6 +148,21 @@ MonoBehaviour:
   TargetMask:
     serializedVersion: 2
     m_Bits: 392
+--- !u!114 &8076433951169746976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1075929143562183061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c7e3a3e9abccb4488170a8af30261f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyBehavior: {fileID: 0}
+  bossName: Boss
+  ChaseSpeed: 5
 --- !u!1 &3306233067879556567
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,7 +175,7 @@ GameObject:
   - component: {fileID: 7843621624028354270}
   m_Layer: 8
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -235,7 +278,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 24aa6eddac6e5ed4f91b54934001f4b0, type: 2}
+  - {fileID: 2100000, guid: 8b98a6996439dc741a9171c88b748f3f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

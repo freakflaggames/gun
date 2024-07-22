@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
+    GameManager gameManager;
+
     public float Damage;
 
     public int MaxMagazine;
@@ -35,6 +37,11 @@ public class Gun : MonoBehaviour
     {
         ammo = MaxAmmo;
         shotsLeft = MaxMagazine;
+    }
+
+    private void Start()
+    {
+        gameManager = GameManager.Instance;
     }
 
     private void OnEnable()
@@ -116,9 +123,7 @@ public class Gun : MonoBehaviour
 
         Bullet.transform.position = HitPoint;
 
-        Destroy(Bullet);
-
-        if (MadeImpact && other)
+        if (MadeImpact && other.transform.parent)
         {
             if (other.transform.parent.tag == "Enemy")
             {
@@ -133,6 +138,8 @@ public class Gun : MonoBehaviour
             var impactInstance = Instantiate(ImpactParticleSystem, HitPoint + HitNormal * 0.1f, Quaternion.LookRotation(HitNormal));
             impactInstance.transform.parent = other.transform.parent;
         }
+
+        Destroy(Bullet);
     }
 
     private void OnDisable()
