@@ -20,12 +20,20 @@ public class EnemyBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        bool persistent = false;
+
         if (other.gameObject.CompareTag("Player") && other.transform.parent)
         {
             GameObject parentObject = other.transform.parent.gameObject;
             Player playerBehavior = parentObject.GetComponent<Player>();
 
             playerBehavior.Die();
+
+            persistent = true;
+        }
+        if (!persistent)
+        {
+            Destroy(gameObject);
         }
     }
 }

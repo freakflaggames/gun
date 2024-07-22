@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
+    GameManager gameManager;
+
     public float Damage;
 
     public int MaxMagazine;
@@ -35,6 +37,11 @@ public class Gun : MonoBehaviour
     {
         ammo = MaxAmmo;
         shotsLeft = MaxMagazine;
+    }
+
+    private void Start()
+    {
+        gameManager = GameManager.Instance;
     }
 
     private void OnEnable()

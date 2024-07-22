@@ -8,6 +8,8 @@ using Cinemachine;
 [RequireComponent(typeof(CharacterController))]
 public class FPSController : MonoBehaviour
 {
+    GameManager gameManager;
+
     [SerializeField]
     Player player;
 
@@ -74,6 +76,10 @@ public class FPSController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+    private void Start()
+    {
+        gameManager = GameManager.Instance;
     }
     private void OnEnable()
     {
@@ -178,7 +184,7 @@ public class FPSController : MonoBehaviour
 
     void OnFire(InputAction.CallbackContext callbackContext)
     {
-        if (!player.isDead)
+        if (!player.isDead && !gameManager.levelComplete)
         {
             onFired?.Invoke();
         }
