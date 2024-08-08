@@ -43,7 +43,15 @@ public class Player : MonoBehaviour
         isDead = true;
         onPlayerDeath?.Invoke();
 
-        transform.DOLocalRotate(new Vector3(0, 0, -45), 1.5f, RotateMode.Fast).SetEase(Ease.OutBounce);
+        //Camera rotation for player death
+        //Needs to rotate towards source of death
+
+        transform.DOLocalRotate(new Vector3(0, 0, -45), 1.5f, RotateMode.Fast).SetEase(Ease.OutBounce)
+            .OnComplete(() =>
+            {
+                Debug.Log("Rotated :3");
+            });
+        
 
         LockMovement();
     }

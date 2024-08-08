@@ -34,6 +34,7 @@ public class FPSController : MonoBehaviour
 
     public bool isDashing { get; private set; }
 
+    //Mouse sensitivity 
     [SerializeField]
     float LookSpeed = .1f;
 

@@ -13,6 +13,10 @@ public class AmmoUI : MonoBehaviour
     Image ReloadBar;
 
     Player player;
+    Gun playerGun;
+
+    int shotsLeft;
+    int ammo;
 
     private void Awake()
     {
@@ -22,19 +26,28 @@ public class AmmoUI : MonoBehaviour
     private void OnEnable()
     {
         FPSController.onReloaded += Reload;
+        FPSController.onFired += Fired;
     }
 
     void Update()
     {
-        Gun playerGun = player.playerGun;
-        int shotsLeft = playerGun.shotsLeft;
-        int ammo = playerGun.ammo;
+        playerGun = player.playerGun;
+        shotsLeft = playerGun.shotsLeft;
+        ammo = playerGun.ammo;
+
         AmmoText.text = shotsLeft + "/" + ammo;
     }
 
     void Reload()
     {
         StartCoroutine(FillReloadBar());
+    }
+
+    void Fired()
+    {
+        //Check if the gun has enough ammo left to fire
+        //If not, show indicator 
+        //if(shotsLeft == 0)
     }
 
     IEnumerator FillReloadBar()
@@ -51,8 +64,10 @@ public class AmmoUI : MonoBehaviour
 
         ReloadBar.fillAmount = 0;
     }
+
     private void OnDisable()
     {
         FPSController.onReloaded -= Reload;
+        FPSController.onFired -= Fired;
     }
 }
