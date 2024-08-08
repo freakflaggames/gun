@@ -53,7 +53,7 @@ public class DeathUI : MonoBehaviour
     {
         DeathPanel.gameObject.SetActive(true);
 
-        foreach (Transform child in DeathPanel.transform)
+        foreach(Transform child in DeathPanel.transform)
         {
             child.gameObject.SetActive(true);
         }

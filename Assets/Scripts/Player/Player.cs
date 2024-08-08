@@ -26,23 +26,35 @@ public class Player : MonoBehaviour
     {
         gameManager = GameManager.Instance;
     }
-    public void AddAmmo(int ammoCount)
+    private void OnEnable()
     {
-        playerGun.AddAmmo(ammoCount);
+        GameManager.onMissionComplete += MissionCompleted;
+    }
+    void LockMovement()
+    {
+        movement.canMove = false;
+        movement.canLook = false;
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
     public void Die()
     {
         isDead = true;
         onPlayerDeath?.Invoke();
 
-        gameManager.StopTimer();
-
         transform.DOLocalRotate(new Vector3(0, 0, -45), 1.5f, RotateMode.Fast).SetEase(Ease.OutBounce);
-        
-        movement.canMove = false;
-        movement.canLook = false;
 
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        LockMovement();
+    }
+
+    public void MissionCompleted()
+    {
+        LockMovement();
+    }
+
+    private void OnDisable()
+    {
+        GameManager.onMissionComplete -= MissionCompleted;
     }
 }

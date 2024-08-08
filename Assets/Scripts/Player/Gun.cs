@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
+    GameManager gameManager;
+
     public float Damage;
 
     public int MaxMagazine;
@@ -37,18 +39,15 @@ public class Gun : MonoBehaviour
         shotsLeft = MaxMagazine;
     }
 
+    private void Start()
+    {
+        gameManager = GameManager.Instance;
+    }
+
     private void OnEnable()
     {
         FPSController.onFired += Shoot;
         FPSController.onReloaded += Reload;
-    }
-    private void Update()
-    {
-
-    }
-    public void AddAmmo(int ammoCount)
-    {
-        ammo += ammoCount;
     }
 
     void Shoot()
@@ -59,9 +58,21 @@ public class Gun : MonoBehaviour
         {
             Transform camera = Camera.main.transform;
 
-            //if (Physics.Raycast(camera, camera.forward, ))
+            Vector3 direction = camera.forward;
+            float maxDistance = float.MaxValue;
 
-            //SpawnBullet(BulletPrefab, BulletSpawnPoint.transform, lookPos);
+            GameObject Bullet = Instantiate(BulletPrefab, BulletSpawnPoint.position, Quaternion.identity);
+
+            bool hitTarget = Physics.Raycast(camera.position, direction, out RaycastHit hit, maxDistance, TargetMask);
+
+            if (hitTarget)
+            {
+                StartCoroutine(SpawnBullet(Bullet, hit.point, hit.normal, hit.collider.gameObject, hitTarget));
+            }
+            else
+            {
+                StartCoroutine(SpawnBullet(Bullet, camera.forward * Camera.main.farClipPlane, Vector3.zero, null, hitTarget));
+            }
 
             AudioManager.Instance.PlaySound("gunshot");
 
@@ -95,16 +106,40 @@ public class Gun : MonoBehaviour
         }
     }
 
-    void SpawnBullet(GameObject bulletPrefab, Transform bulletSpawnPosition, Vector3 lookPos)
+    private IEnumerator SpawnBullet(GameObject Bullet, Vector3 HitPoint, Vector3 HitNormal, GameObject other, bool MadeImpact)
     {
-        GameObject bulletObject = Instantiate(bulletPrefab, bulletSpawnPosition.position, Quaternion.identity);
+        Vector3 startPosition = Bullet.transform.position;
 
-        bulletObject.transform.LookAt(lookPos);
+        float distance = Vector3.Distance(Bullet.transform.position, HitPoint);
+        float startingDistance = distance;
 
-        Bullet bullet = bulletObject.GetComponent<Bullet>();
+        while (distance > 0)
+        {
+            Bullet.transform.position = Vector3.Lerp(startPosition, HitPoint, 1 - (distance / startingDistance));
+            distance -= Time.deltaTime * BulletSpeed;
 
-        bullet.BulletSpeed = BulletSpeed;
-        bullet.BulletDamage = Damage;
+            yield return null;
+        }
+
+        Bullet.transform.position = HitPoint;
+
+        if (MadeImpact && other.transform.parent)
+        {
+            if (other.transform.parent.tag == "Enemy")
+            {
+                Enemy enemy = other.transform.parent.GetComponent<Enemy>();
+
+                bool headshot = other.tag == "Head";
+                float damage = Damage * (headshot ? 2 : 1);
+
+                enemy.Damage(damage);
+            }
+
+            var impactInstance = Instantiate(ImpactParticleSystem, HitPoint + HitNormal * 0.1f, Quaternion.LookRotation(HitNormal));
+            impactInstance.transform.parent = other.transform.parent;
+        }
+
+        Destroy(Bullet);
     }
 
     private void OnDisable()
