@@ -53,6 +53,12 @@ public class Player : MonoBehaviour
         LockMovement();
     }
 
+    public void AddAmmo(int ammoCount)
+    {
+        playerGun.ammo += ammoCount;
+
+    }
+
     private void OnDisable()
     {
         GameManager.onMissionComplete -= MissionCompleted;

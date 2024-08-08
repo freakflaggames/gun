@@ -12,7 +12,7 @@ public class Gun : MonoBehaviour
 
     public int MaxAmmo;
 
-    public int ammo { get; private set; }
+    public int ammo;
 
     public int shotsLeft { get; private set; }
 
