@@ -83,6 +83,6 @@ public class BossUI : MonoBehaviour
     private void OnDisable()
     {
         Boss.onActivated -= RevealBossPanel;
-        Player.onPlayerDeath += HideBossPanel;
+        Player.onPlayerDeath -= HideBossPanel;
     }
 }

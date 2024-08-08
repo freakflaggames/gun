@@ -5266,8 +5266,8 @@ CharacterController:
   serializedVersion: 3
   m_Height: 2.86
   m_Radius: 0.5000001
-  m_SlopeLimit: 0
-  m_StepOffset: 0.3
+  m_SlopeLimit: 90
+  m_StepOffset: 0
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
@@ -5290,7 +5290,7 @@ MonoBehaviour:
   WalkSpeed: 20
   DashSpeed: 10
   DashDistance: 0.2
-  LookSpeed: 0.2
+  LookSpeed: 0.5
   LookXLimit: 45
 --- !u!114 &8666965678374942225
 MonoBehaviour:

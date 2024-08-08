@@ -6,21 +6,27 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public bool levelComplete { get; private set; }
+
     AudioManager audioManager;
     public float TimeLeft { get; private set; }
 
     [SerializeField]
     float MaxTime;
 
+    public bool resetBestTime;
+
     bool timerActive;
 
     bool audibleTick;
+
+    public delegate void OnMissionComplete();
+    public static event OnMissionComplete onMissionComplete;
 
     private void Awake()
     {
         Instance = this;
     }
-
     private void Start()
     {
         audioManager = AudioManager.Instance;
@@ -28,12 +34,18 @@ public class GameManager : MonoBehaviour
         TimeLeft = MaxTime;
         timerActive = true;
 
+        if (resetBestTime)
+        {
+            PlayerPrefs.SetFloat("bestTime", 0);
+        }
+
         StartCoroutine(Tick());
     }
 
     private void OnEnable()
     {
         Boss.onActivated += OnBossActivated;
+        Player.onPlayerDeath += PlayerDied;
     }
 
     private void Update()
@@ -48,6 +60,29 @@ public class GameManager : MonoBehaviour
     {
         timerActive = false;
         audioManager.StopMusic();
+    }
+
+    void Score()
+    {
+        if (TimeLeft > PlayerPrefs.GetFloat("bestTime"))
+        {
+            PlayerPrefs.SetFloat("bestTime", TimeLeft);
+        }
+    }
+
+    public void CompleteMission()
+    {
+        StopTimer();
+        Score();
+
+        onMissionComplete?.Invoke();
+
+        levelComplete = true;
+    }
+
+    void PlayerDied()
+    {
+        StopTimer();
     }
 
     void OnBossActivated()
@@ -75,5 +110,6 @@ public class GameManager : MonoBehaviour
     private void OnDisable()
     {
         Boss.onActivated -= OnBossActivated;
+        Player.onPlayerDeath -= PlayerDied;
     }
 }
