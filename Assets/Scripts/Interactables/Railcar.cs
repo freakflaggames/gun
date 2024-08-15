@@ -2,73 +2,92 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+[RequireComponent(typeof(Collider))]
 public class Railcar : MonoBehaviour
 {
-    [SerializeField]
-    Vector3 StartPoint;
+    //where and how far does the car go
+    public Vector3 Distance;
 
-    [SerializeField]
-    Vector3 EndPoint;
+    //where did the car start
+    Vector3 startPosition;
 
-    [SerializeField]
-    float RideTime;
+    //where will the car end up
+    Vector3 endPosition;
 
-    [SerializeField]
-    Ease ease;
+    //how long is the player riding for
+    public float RideLength;
 
-    bool end;
+    //current ride time
+    float rideTime;
 
-    public Transform passenger;
+    //store the passenger
+    Player passenger;
 
-    Vector3 seatedPosition;
+    Collider trigger;
+
+    private void Awake()
+    {
+        trigger = GetComponent<Collider>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.GetComponent<Player>())
         {
-            passenger = other.transform;
-
-            PassengerEnter();
+            //on colliding with player, bring them in as a passenger
+            Player player = other.GetComponent<Player>();
+            PassengerEnter(player);
         }
     }
-    private void Update()
+    void PassengerEnter(Player player)
     {
-        if (passenger)
-        {
-            seatedPosition = transform.position;
-            seatedPosition.y = passenger.transform.position.y;
+        //store the player as a passenger
+        passenger = player;
 
-            passenger.transform.position = seatedPosition;
-        }
+        //anchor passenger's position to the car
+        passenger.transform.SetParent(transform);
+
+        //stop passenger from moving while riding 
+        passenger.movement.canMove = false;
+
+        //set start and end position
+        startPosition = transform.position;
+        endPosition = transform.position + Distance;
+
+        //start the ride timer
+        rideTime = RideLength;
     }
-
-    void PassengerEnter()
+    private void FixedUpdate()
     {
-        if (passenger)
+        if (rideTime > 0)
         {
-            passenger.GetComponent<FPSController>().canMove = false;
-            StartCar();
-        }
-    }
+            //move car towards destination over time
+            transform.position = Vector3.Lerp(endPosition, startPosition, rideTime / RideLength);
 
-    void PassengerExit()
-    {
-        if (passenger)
+            //count down timer
+            rideTime -= Time.deltaTime;
+        }
+        else
         {
-            passenger.GetComponent<FPSController>().canMove = true;
-            passenger = null;
-        }
-    }
-
-    void StartCar()
-    {
-        Vector3 destination = end ? StartPoint : EndPoint;
-        transform.parent.DOLocalMove(destination, RideTime)
-            .SetEase(ease)
-            .OnComplete(() =>
+            if (passenger)
             {
-                end = !end;
-                PassengerExit();
-            });
+                PassengerExit(passenger);
+            }
+        }
+    }
+
+    void PassengerExit(Player passenger)
+    {
+        //remove anchor from passenger position
+        passenger.transform.SetParent(null);
+
+        //allow the passenger to move
+        passenger.movement.canMove = true;
+
+        //remove player as passenger
+        passenger = null;
+
+        //disable collision to prevent reentry
+        trigger.enabled = false;
     }
 }
