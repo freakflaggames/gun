@@ -183,6 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartPoint: {x: 0, y: 0, z: 0}
-  EndPoint: {x: 35, y: 0, z: 0}
-  RideTime: 5
+  EndPoint: {x: -233, y: 0, z: 0}
+  RideTime: 15
   ease: 1
+  passenger: {fileID: 0}
