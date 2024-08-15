@@ -38,6 +38,10 @@ public class Railcar : MonoBehaviour
             Player player = other.GetComponent<Player>();
             PassengerEnter(player);
         }
+        //if (other.CompareTag("Dismount"))
+        //{
+        //    PassengerExit(passenger);
+        //}
     }
     void PassengerEnter(Player player)
     {
