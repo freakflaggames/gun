@@ -20,8 +20,11 @@ public class Railcar : MonoBehaviour
     //current ride time
     float rideTime;
 
+    //time until player can remount
+    public float remountTime;
+
     //store the passenger
-    Player passenger;
+    [HideInInspector] public Player passenger;
 
     Collider trigger;
 
@@ -38,11 +41,9 @@ public class Railcar : MonoBehaviour
             Player player = other.GetComponent<Player>();
             PassengerEnter(player);
         }
-        //if (other.CompareTag("Dismount"))
-        //{
-        //    PassengerExit(passenger);
-        //}
     }
+
+
     void PassengerEnter(Player player)
     {
         //store the player as a passenger
@@ -61,6 +62,8 @@ public class Railcar : MonoBehaviour
         //start the ride timer
         rideTime = RideLength;
     }
+
+
     private void FixedUpdate()
     {
         if (rideTime > 0)
@@ -80,7 +83,7 @@ public class Railcar : MonoBehaviour
         }
     }
 
-    void PassengerExit(Player passenger)
+    public void PassengerExit(Player passenger)
     {
         //remove anchor from passenger position
         passenger.transform.SetParent(null);
@@ -93,5 +96,19 @@ public class Railcar : MonoBehaviour
 
         //disable collision to prevent reentry
         trigger.enabled = false;
+
+        //start coroutine to allow player to remount
+        StartCoroutine(RemountTimer());
+            
+    }
+
+
+    public IEnumerator RemountTimer()
+    {
+        //wait a fixed amount of time
+        yield return new WaitForSeconds(remountTime);
+
+        //renable collision for reentry
+        trigger.enabled = true;
     }
 }
