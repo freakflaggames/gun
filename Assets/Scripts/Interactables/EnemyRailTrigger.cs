@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DismountTrigger : MonoBehaviour
+public class EnemyRailTrigger : MonoBehaviour
 {
-   [SerializeField] Railcar RailcarBehavior;
+    public EnemyRailCar railcar1;
 
-    
+    public EnemyRailCar railcar2;
 
     // Start is called before the first frame update
     void Start()
@@ -22,10 +22,12 @@ public class DismountTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
+        //if player enters start trigger, start railcar movement
         if (other.GetComponent<Player>())
         {
-            //when player enters collision, dismount player
-            RailcarBehavior.PassengerExit(RailcarBehavior.passenger);
+           railcar1.StartRide();
+           railcar2.StartRide();
         }
     }
 }
