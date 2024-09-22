@@ -87,29 +87,24 @@ public class Enemy : MonoBehaviour
             StartCoroutine(StartTelegraph());
         }
     }
-
-    Vector3 PlayerDir()
-    {
-        Vector3 dir = player.transform.position - transform.position;
-
-        if (transform.position.y <= player.transform.position.y)
-        {
-            dir.y = 0;
-        }
-
-        return dir;
-    }
     
     void LookAtPlayer()
     {
-        transform.rotation = Quaternion.LookRotation(-PlayerDir());
+        var lookDir = player.transform.position - transform.position;
+
+        if (transform.position.y <= player.transform.position.y)
+        {
+            lookDir.y = 0;
+        }
+
+        transform.rotation = Quaternion.LookRotation(-lookDir);
     }
 
     void CheckForShoot()
     {
         if (willShoot)
         {
-            Shoot();
+            Shoot(hitPoint);
 
             StartCoroutine(WaitToShoot());
 
@@ -149,16 +144,15 @@ public class Enemy : MonoBehaviour
         TelegraphGraphic.SetActive(false);
     }
 
-    void Shoot()
+    void Shoot(Vector3 hitPoint)
     {
         FPSController playerMovement = player.gameObject.GetComponent<FPSController>();
 
-        Quaternion bulletRotation = Quaternion.LookRotation(PlayerDir());
+        bool hitPlayer = canSeePlayer && !playerMovement.isDashing;
 
-        GameObject bulletObject = Instantiate(BulletPrefab, BulletSpawnPoint.position, bulletRotation);
+        GameObject Bullet = Instantiate(BulletPrefab, BulletSpawnPoint.position, Quaternion.identity);
 
-        EnemyBullet bullet = bulletObject.GetComponent<EnemyBullet>();
-        bullet.BulletSpeed = BulletSpeed;
+        StartCoroutine(SpawnBullet(Bullet, hitPoint, hitPlayer));
 
         willShoot = false;
         isTelegraphing = false;
@@ -173,6 +167,33 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(TelegraphLength);
 
         willShoot = true;
+    }
+
+    private IEnumerator SpawnBullet(GameObject Bullet, Vector3 HitPoint, bool hitPlayer)
+    {
+        Vector3 startPosition = Bullet.transform.position;
+
+        float distance = Vector3.Distance(Bullet.transform.position, HitPoint);
+        float startingDistance = distance;
+
+        AudioManager.Instance.PlaySound("gunshot");
+
+        while (distance > 0)
+        {
+            Bullet.transform.position = Vector3.Lerp(startPosition, HitPoint, 1 - (distance / startingDistance));
+            distance -= Time.deltaTime * BulletSpeed;
+
+            yield return null;
+        }
+
+        Bullet.transform.position = HitPoint;
+
+        if (hitPlayer)
+        {
+            player.Die();
+        }
+
+        Destroy(Bullet);
     }
 
     private IEnumerator WaitToShoot()

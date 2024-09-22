@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     public delegate void PlayerDied();
     public static event PlayerDied onPlayerDeath;
 
-    FPSController movement;
+    public FPSController movement;
 
     private void Awake()
     {
