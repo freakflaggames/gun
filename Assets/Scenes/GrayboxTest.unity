@@ -8685,6 +8685,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2970156258390660298, guid: d1f180c617afe1e4eb36da713706a4d7, type: 3}
+      propertyPath: globalVolume
+      value: 
+      objectReference: {fileID: 1225336379}
     - target: {fileID: 4309270248112208600, guid: d1f180c617afe1e4eb36da713706a4d7, type: 3}
       propertyPath: m_Name
       value: Management
