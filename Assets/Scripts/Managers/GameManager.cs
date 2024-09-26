@@ -2,114 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GameState
+{
+    Game,
+    LevelComplete,
+    Dead
+}
+
+//This singleton class handles high-level gameplay states and loops
+//It should be housed on the GameManager prefab object
+
 public class GameManager : MonoBehaviour
 {
+    //Other classes reference the gamemanger static instance
     public static GameManager Instance;
-
-    public bool levelComplete { get; private set; }
-
-    AudioManager audioManager;
-    public float TimeLeft { get; private set; }
-
-    [SerializeField]
-    float MaxTime;
-
-    public bool resetBestTime;
-
-    bool timerActive;
-
-    bool audibleTick;
-
-    public delegate void OnMissionComplete();
-    public static event OnMissionComplete onMissionComplete;
+    public GameState currentState;
 
     private void Awake()
     {
+        //The gamemanager static instance is created in awake, so reference it in
+        //Start() after it has been created
         Instance = this;
+        //Set the game state to main game
+        ChangeState(GameState.Game);
     }
-    private void Start()
+
+    public void ChangeState(GameState state)
     {
-        audioManager = AudioManager.Instance;
-
-        TimeLeft = MaxTime;
-        timerActive = true;
-
-        if (resetBestTime)
+        //When the state is changed, execute state-specific logic
+        switch (state)
         {
-            PlayerPrefs.SetFloat("bestTime", 0);
+            //When the main game state starts
+            case GameState.Game:
+                break;
+            //When the level is completed
+            case GameState.LevelComplete:
+                break;
+            //When the player died
+            case GameState.Dead:
+                break;
         }
 
-        StartCoroutine(Tick());
-    }
-
-    private void OnEnable()
-    {
-        Boss.onActivated += OnBossActivated;
-        Player.onPlayerDeath += PlayerDied;
-    }
-
-    private void Update()
-    {
-        if (timerActive)
-        {
-            TimeLeft -= Time.deltaTime;
-        }
-    }
-
-    public void StopTimer()
-    {
-        timerActive = false;
-        audioManager.StopMusic();
-    }
-
-    void Score()
-    {
-        if (TimeLeft > PlayerPrefs.GetFloat("bestTime"))
-        {
-            PlayerPrefs.SetFloat("bestTime", TimeLeft);
-        }
-    }
-
-    public void CompleteMission()
-    {
-        StopTimer();
-        Score();
-
-        onMissionComplete?.Invoke();
-
-        levelComplete = true;
-    }
-
-    void PlayerDied()
-    {
-        StopTimer();
-    }
-
-    void OnBossActivated()
-    {
-        audioManager.StopMusic();
-
-        audibleTick = true;
-    }
-
-    IEnumerator Tick()
-    {
-        if (audibleTick)
-        {
-            audioManager.PlaySound("tick");
-        }
-
-        yield return new WaitForSeconds(1);
-
-        if (timerActive)
-        {
-            StartCoroutine(Tick());
-        }
-    }
-
-    private void OnDisable()
-    {
-        Boss.onActivated -= OnBossActivated;
-        Player.onPlayerDeath -= PlayerDied;
+        //Set the current state to the next state
+        currentState = state;
     }
 }

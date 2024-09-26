@@ -5,52 +5,52 @@ using Cinemachine;
 
 public class CameraManager : MonoBehaviour
 {
-    [SerializeField]
-    CinemachineVirtualCamera VirtualCamera;
+    //[SerializeField]
+    //CinemachineVirtualCamera VirtualCamera;
 
-    [SerializeField]
-    float ScreenShakeAmplitude;
+    //[SerializeField]
+    //float ScreenShakeAmplitude;
 
-    [SerializeField]
-    float ScreenShakeTime;
+    //[SerializeField]
+    //float ScreenShakeTime;
 
-    float screenShakeTimer;
+    //float screenShakeTimer;
 
-    Player player;
+    //Player player;
 
-    private void OnEnable()
-    {
-        FPSController.onFired += StartScreenShake;
-    }
-    private void Awake()
-    {
-        player = FindAnyObjectByType<Player>();
-    }
-    private void Update()
-    {
-        ScreenShake();
-    }
-    void StartScreenShake()
-    {
-        if (player.playerGun.shotsLeft > 0)
-        {
-            screenShakeTimer = ScreenShakeTime;
-        }
-    }
-    public void ScreenShake()
-    {
-        var noise = VirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+    //private void OnEnable()
+    //{
+    //    FPSController.onFired += StartScreenShake;
+    //}
+    //private void Awake()
+    //{
+    //    player = FindAnyObjectByType<Player>();
+    //}
+    //private void Update()
+    //{
+    //    ScreenShake();
+    //}
+    //void StartScreenShake()
+    //{
+    //    if (player.playerGun.shotsLeft > 0)
+    //    {
+    //        screenShakeTimer = ScreenShakeTime;
+    //    }
+    //}
+    //public void ScreenShake()
+    //{
+    //    var noise = VirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
-        if (screenShakeTimer > 0)
-        {
-            screenShakeTimer -= Time.deltaTime;
-        }
+    //    if (screenShakeTimer > 0)
+    //    {
+    //        screenShakeTimer -= Time.deltaTime;
+    //    }
 
-        noise.m_AmplitudeGain = Mathf.Lerp(0, ScreenShakeAmplitude, screenShakeTimer / ScreenShakeTime);
-    }
+    //    noise.m_AmplitudeGain = Mathf.Lerp(0, ScreenShakeAmplitude, screenShakeTimer / ScreenShakeTime);
+    //}
 
-    private void OnDisable()
-    {
-        FPSController.onFired -= StartScreenShake;
-    }
+    //private void OnDisable()
+    //{
+    //    FPSController.onFired -= StartScreenShake;
+    //}
 }
